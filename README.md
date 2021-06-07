@@ -20,6 +20,9 @@ La version actuelle du document est un document de travail évolutif qui sera mi
 
 
 ## Comment donner un retour?
-Nous invitons chacun de donner un retour en créant un [Issue](https://github.com/act-etat-lu/LotsOfBim/issues) sur GitHub. Merci de bien vouloir respecter ces règles:
+Nous invitons chacun de donner un retour en créant un [Issue](https://github.com/act-etat-lu/LotsOfBim/issues) sur GitHub. 
+Pour ceci il faut créer un compte GitHub.
+Vos commentaire seront publiquement visible, ceci permettra à tout et chacun de bénéficier de la discussion.
+Merci de bien vouloir respecter les règles suivantes:
 * **Un ticket par sujet**: évitez de combiner de sujets différents dans un ticket. 
 * **Vérifiez s'il n'existe pas encore de ticket similaire**: si quelqu'un d'autre a déjà créé un ticket pareil, merci d'ajouter vos commentaires à ce ticket au lieu d'en créer un deuxième.
