@@ -14,7 +14,7 @@ La plateforme LotsOfBIM profitera de la norme [IFC](https://technical.buildingsm
 ## Guide de modélisation
 
 Le document intitulé _'Cadastre vertical - Lignes directrices sur la modélisation BIM des immeubles en copropriété'_ ([LotsOfBIM-cadastre-vertical-modelisation-BIM.pdf](./LotsOfBIM-cadastre-vertical-modelisation-BIM.pdf))
-définit les besoins en terme de géometries et informations à inclure dans un fichier IFC afin de pouvoir générer les documents d'un dossier cadastre vertical.
+définit les besoins en terme de géométries et informations à inclure dans un fichier IFC afin de pouvoir générer les documents d'un dossier cadastre vertical.
 
 La version actuelle du document est un document de travail évolutif qui sera mis à jour en accord avec le groupe de travail auprès de l'ACT et le CRTI-B.
 
@@ -22,4 +22,4 @@ La version actuelle du document est un document de travail évolutif qui sera mi
 ## Comment donner un retour?
 Nous invitons chacun de donner un retour en créant un [Issue](https://github.com/act-etat-lu/LotsOfBim/issues) sur GitHub. Merci de bien vouloir respecter ces règles:
 * **Un ticket par sujet**: évitez de combiner de sujets différents dans un ticket. 
-* **Vérifiez s'il n'existe pas encore de ticket similaire**: si quelqu'un d'autre a déjà créé un ticket pareil, merci d'ajouter vos commentaires à ce ticket au lieu d'en créer un deuxiem.
+* **Vérifiez s'il n'existe pas encore de ticket similaire**: si quelqu'un d'autre a déjà créé un ticket pareil, merci d'ajouter vos commentaires à ce ticket au lieu d'en créer un deuxième.
