@@ -1,0 +1,15 @@
+# General Python residue
+__pycache__
+*.py.bak
+# Visual Studio Code files
+.vscode
+# PyCharm / IntelliJ files
+.idea
+# gettext binary translation files
+*.mo
+# vim
+*.swp
+*.log
+*.zip
+*.tmp
+site-packages
