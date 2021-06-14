@@ -19,8 +19,8 @@ définit les besoins en terme de géométries et informations à inclure dans un
 La version actuelle du document est un document de travail évolutif qui sera mis à jour en accord avec le groupe de travail auprès de l'ACT et le CRTI-B.
 
 
-## Comment donner un retour?
-Nous invitons chacun de donner un retour en créant un [Issue](https://github.com/act-etat-lu/LotsOfBim/issues) sur GitHub. 
+## Comment donner un feedback?
+Donnez vortre feedback en créant un [Issue](https://github.com/act-etat-lu/LotsOfBim/issues) sur GitHub. 
 Pour ceci il faut créer un compte GitHub.
 Vos commentaires seront publiquement visibles; ceci permettra à tous et chacun de bénéficier de la discussion.
 Merci de bien vouloir respecter les règles suivantes:
