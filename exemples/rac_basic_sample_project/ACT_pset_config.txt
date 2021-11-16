@@ -1,0 +1,28 @@
+#
+# User Defined PropertySet Definition File
+#
+# Format:
+#    PropertySet:	<Pset Name>	I[nstance]/T[ype]	<element list separated by ','>
+#	<Property Name 1>	<Data type>	<[opt] Revit parameter name, if different from IFC>
+#	<Property Name 2>	<Data type>	<[opt] Revit parameter name, if different from IFC>
+#	...
+#
+# Data types supported: Area, Boolean, ClassificationReference, ColorTemperature, Count, Currency, 
+#	ElectricalCurrent, ElectricalEfficacy, ElectricalVoltage, Force, Frequency, Identifier, 
+#	Illuminance, Integer, Label, Length, Logical, LuminousFlux, LuminousIntensity, 
+#	NormalisedRatio, PlaneAngle, PositiveLength, PositivePlaneAngle, PositiveRatio, Power, 
+#	Pressure, Ratio, Real, Text, ThermalTransmittance, ThermodynamicTemperature, Volume, 
+#	VolumetricFlowRate
+#
+
+PropertySet:	ACT_partieDeLot	I	IfcSpace,IfcFlowSegment,IfcCableCarrierSegment,IfcCableSegment,IfcDuctSegment,IfcPipeSegment,IfcChimney
+	Lot	Text	ACT_partieDeLot.Lot
+	Nature	Text	ACT_partieDeLot.Nature
+	Unite	Text	ACT_partieDeLot.Unite
+	TremieAExclure	Boolean	ACT_partieDeLot.TremieAExclure
+
+PropertySet:	ACT_Acces	I	IfcSpace,IfcDoor,IfcStair
+	Nom	Text	ACT_Acces.Nom
+
+PropertySet:	ACT_Propriete	I	IfcSpace,IfcWall
+	Nature	Text	ACT_Propriete.Nature
