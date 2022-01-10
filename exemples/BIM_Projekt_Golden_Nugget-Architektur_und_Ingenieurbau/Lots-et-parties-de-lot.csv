@@ -1,6 +1,4 @@
-﻿"Lots-et-parties-de-lot";"";"";"";"";"";"";"";"";"";""
-"Name";"ACT_PartieDeLot.Lot";"ACT_PartieDeLot.Nature";"ACT_PartieDeLot.Unite";"ACT_Propriete.Nature";"ZoneName";"ZoneObjectType";"ACT_Acces.Nom";"Area";"Volume"
-"";"";"";"";"";"";"";"";"";""
+﻿"Name";"ACT_PartieDeLot.Lot";"ACT_PartieDeLot.Nature";"ACT_PartieDeLot.Unite";"ACT_Propriete.Nature";"ZoneName";"ZoneObjectType";"ACT_Acces.Nom";"Area";"Volume"
 "Unterfahrt";"";"ASCENSEUR";"";"commun";"";"";"";"1,97 m²";"2,17 m³"
 "garage";"";"GARAGE INTERIEUR";"";"commun";"";"";"U";"161,95 m²";"366,42 m³"
 "Technik";"003,B,B,81";"LOCAL TECHNIQUE";"";"";"003,B,B,81";"BUREAU-TRIPLEX/TERRASSE(S)";"";"41,09 m²";"93,55 m³"

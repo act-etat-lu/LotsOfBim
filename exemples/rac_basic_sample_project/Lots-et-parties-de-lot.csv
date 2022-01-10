@@ -1,6 +1,4 @@
-﻿"Lots-et-parties-de-lot";"";"";"";""
-"Level";"Name";"ACT_Acces.Nom";"ACT_PartieDeLot.Lot";"ACT_PartieDeLot.Nature";"ACT_PartieDeLot.Unite";"ACT_Propriete.Nature";"Area";"ZoneName";"ZoneObjectType"
-"";"";"";"";"";"";"";"";"";""
+﻿"Level";"Name";"ACT_Acces.Nom";"ACT_PartieDeLot.Lot";"ACT_PartieDeLot.Nature";"ACT_PartieDeLot.Unite";"ACT_Propriete.Nature";"Area";"ZoneName";"ZoneObjectType"
 "82";"Living";"";"001,A,A,82";"APPARTEMENT";"A";"";"73.04 m²";"001,A,A,82";"APPARTEMENT/TERRASSE(S)"
 "82";"Room";"";"001,A,A,82";"TERRASSE";"A";"";"17.11 m²";"001,A,A,82";"APPARTEMENT/TERRASSE(S)"
 "81";"Kitchen & Dining";"";"002,A,A,81";"APPARTEMENT";"A";"";"72.56 m²";"002,A,A,81";"APPARTEMENT/TERRASSE(S)"
