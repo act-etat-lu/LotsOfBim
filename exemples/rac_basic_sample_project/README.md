@@ -13,3 +13,8 @@ moyennent ces fichiers de configuration Revit:
 * [IFC_Configuration_-_IFC2x3_Coordination_View_-_Cadastre_Vertical.json](IFC_Configuration_-_IFC2x3_Coordination_View_-_Cadastre_Vertical.json), et
 * [IFC_Configuration_-_IFC4_Reference_View_-_Cadastre_Vertical.json](IFC_Configuration_-_IFC4_Reference_View_-_Cadastre_Vertical.json). 
 
+
+## Liste de changements:
+* 2021-11-16: première version
+* 2022-01-10: ajouter fichier CSV avec un résumé des lots
+* 2022-03-06: compléter pset ACT_Propriete pour des éléments IfcCurtainWall, ajouter pset ACT_Acces.AccessPrincipal
