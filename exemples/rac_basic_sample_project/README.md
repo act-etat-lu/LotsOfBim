@@ -18,3 +18,4 @@ moyennent ces fichiers de configuration Revit:
 * 2021-11-16: première version
 * 2022-01-10: ajouter fichier CSV avec un résumé des lots
 * 2022-03-06: compléter pset ACT_Propriete pour des éléments IfcCurtainWall, ajouter pset ACT_Acces.AccessPrincipal
+* 2022-03-16: ajouter pset ACT_Etage.Nom
