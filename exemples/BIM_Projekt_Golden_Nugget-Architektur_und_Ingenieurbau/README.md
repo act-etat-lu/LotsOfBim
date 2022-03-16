@@ -8,3 +8,9 @@ qui sont disponibles sur Autodesk Knowledge Network sous une
 
 Le fichier Revit a été modifié selon le [guide de modélisation pour le cadastre vertical](../../LotsOfBIM-cadastre-vertical-modelisation-BIM.pdf).
 Le résultat a été exporté en format IFC avec l'outil [revit-ifc](https://github.com/Autodesk/revit-ifc).
+
+
+## Liste de changements:
+* 2022-01-03: première version
+* 2022-01-10: ajouter parties de lot et IfcZone
+* 2022-03-16: ajouter pset ACT_Etage.Nom et pset ACT_Acces.AccessPrincipal
