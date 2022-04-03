@@ -37,7 +37,7 @@ Ce document résume les règles de validation qui sont vérifiées par l'applica
 
 ## 1 Règles de validation IFC <a id="ifc">
 
-Les règles de validation IFC se basent sur les critères du guide de modélisation ([LotsOfBIM-cadastre-vertical-modelisation-BIM.pdf](./LotsOfBIM-cadastre-vertical-modelisation-BIM.pdf).
+Les règles de validation IFC se basent sur les critères du guide de modélisation ([LotsOfBIM-cadastre-vertical-modelisation-BIM.pdf](./LotsOfBIM-cadastre-vertical-modelisation-BIM.pdf)).
 
 ### 1.1 Schéma IFC <a id="ifc.schema">
 
@@ -121,25 +121,34 @@ ENDSEC;
 ### 1.5 IfcBuildingStorey <a id="ifc.IfcBuildingStorey">
 
 **Besoin:** 
- - Chaque étage (IfcBuildingStorey) doit avoir un property ACT_Etage.Nom dont la valeur est conforme aux recommandations de délimitation du cadastre vertical. 
- - L'attribut IfcBuildingStorey.Elevation doit avoir une valeur.
+ - Chaque étage (IfcBuildingStorey) doit avoir un property `ACT_Etage.Nom` dont la valeur est conforme aux recommandations de délimitation du cadastre vertical. 
+ - L'attribut `IfcBuildingStorey.Elevation` doit avoir une valeur.
 
 **Méthode de test:**
  Pour chaque objet de type `IfcBuildingStorey`:
-   - Vérifiez s'il a une propriété ACT_Etage.Nom;
-   - vérifiez que l'attribut IfcBuildingStorey.Elevation a une valeur.
+   - Vérifiez s'il a une propriété `ACT_Etage.Nom`;
+   - vérifiez que l'attribut `IfcBuildingStorey.Elevation` a une valeur.
 
 **Type:** test automatisé.
 
 **Résultat:** erreur, en cas de non-conformité.
 
+**Exemple:** 
+```
+#172= IFCBUILDINGSTOREY('3ZGD7y6S5209$mGLl19cKg',#42,'81','premier sous-sol','Level:8mm Head',#171,$,'81-my-suffix',.ELEMENT.,0.);
+#330302= IFCPROPERTYSINGLEVALUE('Nom',$,IFCTEXT('81'),$);
+#330303= IFCPROPERTYSET('1uIsFIJBqOVaiR97zp9Ma2',#42,'ACT_Etage','',(#330302));
+#330310= IFCRELDEFINESBYPROPERTIES('2rGHcrIw9EiO58rLVprMOV',#42,$,$,(#172),#330303);
+```
+
+
 ### 1.6 IfcSpace <a id="ifc.IfcSpace">
 
-**Besoin:** Chaque espace fonctionnel doit être modélisé comme IfcSpace. 
-  - Chaque IfcSpace doit avoir un nom indiqué dans l'attribut `IfcSpace.Name`.
+**Besoin:** Chaque espace fonctionnel doit être modélisé comme `IfcSpace`. 
+  - Chaque `IfcSpace` doit avoir un nom indiqué dans l'attribut `IfcSpace.Name`.
   - La géométrie de chaque IfcSpace doit être modélisée correctement en 3D de préférence avec une géométrie de type Body Brep Geometry (les géométries de type ‘Body SweptSolid Geometry’ et ‘Body Clipping Geometry’ seront également supporté par l’ACT), afin de connaître l’empreinte de la partie de lot et la hauteur des plafonds. 
-  - ACT_PartieDeLot.Nature doit avoir une valeur conforme.
-  - La valeur de property ACT_PartieDeLot.Lot contient une valeur structurée: numéro,bloc,escalier,niveau (p.e. 001,A,B,81).
+  - `ACT_PartieDeLot.Nature` doit avoir une valeur conforme.
+  - La valeur de property `ACT_PartieDeLot.Lot` contient une valeur structurée: numéro,bloc,escalier,niveau (p.e. 001,A,B,81).
 
 **Méthode de test:**
 Pour chaque objet IfcSpace :
@@ -335,7 +344,7 @@ Pour chaque géométrie d'escalier à exclure (donct objets IfcSpace avec `ACT_P
 **Type:** test manuel.
 
 ### 2.18 Installations de parking avec plateformes superposées ou coulissantes <a id="vertical.emplacements_superposés">
-**Besoin**: Les emplacements encastrés dans un système de parcage à plates-formes superposées ou coulissantes, sont délimités par ces plates-formes mêmes. En cas de rangées d’emplacements disposées les unes directement derrière les autres, une aire de manoeuvre commune de la taille minimale d’un emplacement, est prévue dans chacune des rangées de devant où les véhicules sont garés sur des plates-formes coulissantes [Délimitation, 2.17(https://act.public.lu/dam-assets/fr/publications/documents-techniques/Recommandations_Delimitation.pdf?page=6)].
+**Besoin**: Les emplacements encastrés dans un système de parcage à plates-formes superposées ou coulissantes, sont délimités par ces plates-formes mêmes. En cas de rangées d’emplacements disposées les unes directement derrière les autres, une aire de manoeuvre commune de la taille minimale d’un emplacement, est prévue dans chacune des rangées de devant où les véhicules sont garés sur des plates-formes coulissantes [Délimitation, 2.17](https://act.public.lu/dam-assets/fr/publications/documents-techniques/Recommandations_Delimitation.pdf?page=6).
 
 **Type:** test manuel.
 
