@@ -10,7 +10,7 @@ Ce document résume les règles de validation qui sont vérifiées par l'applica
   - [1.5 IfcBuildingStorey](#ifc.IfcBuildingStorey)
   - [1.6 IfcSpace](#ifc.IfcSpace)
   - [1.7 IfcZone](#ifc.IfcZone)
-  - [1.8 Separation walls](#ifc.cloisons)
+  - [1.8 Murs de séparation](#ifc.cloisons)
   - [1.9 Géometries simplifiées](#ifc.geometries)
   - [1.10 Remplissage sans intersections](#ifc.topologie)
 
@@ -30,8 +30,8 @@ Ce document résume les règles de validation qui sont vérifiées par l'applica
   - [2.13 Escalier trémie à exclure](#vertical.escalier)
   - [2.14 Trappe ou un vide décoratif](#vertical.vide)
   - [2.15 Ascenseur ou monte-charge privatif](#vertical.ascenseur)
-  - [2.16 External one-level staircase is an independent lot ](#vertical.escalier_exterieur)
-  - [2.17 External footbridge - Passerelle extérieure](#vertical.paserelle.exterieur)
+  - [2.16 Escalier extérieur](#vertical.escalier_exterieur)
+  - [2.17 Passerelle extérieure](#vertical.paserelle.exterieur)
   - [2.18 Emplacements à plates-formes superposées ou coulissantes](#vertical.emplacements_superposés)
   - [2.19 Au moins un local commun](#vertical.local_commun)    
 
@@ -179,7 +179,7 @@ Pour chaque objet IfcZone qui est associé (`IfcZone.IsGroupedBy`) avec des obje
 
 **Résultat:** erreur, en cas de non-conformité.
 
-### 1.8 Separation walls <a id="ifc.cloisons">
+### 1.8 Murs de séparation <a id="ifc.cloisons">
 
 **Besoin:** chaque élément de séparation doit avoir un propertyset (`Pset_WallCommon`, `Pset_ColumnCommon`, `Pset_WindowCommon`, `Pset_CurtainWallCommon`) dont les caractéristiques suivants doivent être fournies : `LoadBearing` et `IsExternal`.
 
@@ -304,7 +304,7 @@ Génère une erreur si un lot contient des parties de lot qui se trouvent sur di
 
 **Type:** test manuel.
 
-### 2.11 Statuts des gaines techniques et cheminées <a id="vertical.statut_gaine">
+### 2.11 Statut des gaines techniques et cheminées <a id="vertical.statut_gaine">
 **Besoin**: Les gaines techniques et les cheminées, ensemble avec leurs coffrages, appartiennent toutes aux parties communes. Elles peuvent être privatives, si leur affectation à ces parties de l’immeuble, ne porte aucun préjudice à la copropriété et si elles ne servent qu’un seul lot privatif ou qu’un ensemble de lots privatifs qui, de par leur destination et leur disposition, sont détenus par le même copropriétaire. Cette exception ne vaut pas pour les conduits qui passent par une unité d’habitation, assimilable à une maison unifamiliale, mais intégrée dans un immeuble soumis au statut de la copropriété [Délimitation, 2.10].
 
 **Type:** test manuel.
@@ -333,12 +333,12 @@ Pour chaque géométrie d'escalier à exclure (donct objets IfcSpace avec `ACT_P
 
 **Type:** test manuel.
 
-### 2.16 External one-level staircase is an independent lot  <a id="vertical.escalier_exterieur">
+### 2.16 Escalier extérieur <a id="vertical.escalier_exterieur">
 **Besoin**: L’escalier extérieur qui relie des parties du même niveau (donc l’escalier de quelques marches seulement et par conséquent d’une moindre hauteur) appartient au balcon ou à la terrasse attenante. En revanche, l’escalier extérieur qui relie des parties de deux niveaux consécutifs (donc l’escalier d’une hauteur de l’ordre d’un étage) forme un lot privatif indépendant au niveau inférieur. [Délimitation, 2.15]
 
 **Type:** test manuel.
 
-### 2.17 External footbridge - Passerelle extérieure <a id="vertical.paserelle.exterieur">
+### 2.17 Passerelle extérieure <a id="vertical.paserelle.exterieur">
 **Besoin**: La passerelle extérieure, accolée à un balcon ou à une terrasse, fait partie intégrante de ce balcon ou de cette terrasse. Dans le cas contraire, elle constitue un lot privatif indépendant (de nature Accès). [Délimitation, 2.16]
 
 **Type:** test manuel.
