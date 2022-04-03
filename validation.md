@@ -1,6 +1,6 @@
 # Validation
 
-Ce document résume les règles de validation qui sont vérifiées par l'application LotsOfBIM.
+Ce document résume les règles de validation qui sont vérifiées par l'application [LotsOfBIM](https://lotsofbim.geoportail.lu/) lors d'une demande de désignation cadastrale.
 
 - [1 Règles de validation IFC](#ifc)
   - [1.1 Schéma IFC](#ifc.schema)
@@ -35,9 +35,9 @@ Ce document résume les règles de validation qui sont vérifiées par l'applica
   - [2.18 Emplacements à plates-formes superposées ou coulissantes](#vertical.emplacements_superposés)
   - [2.19 Au moins un local commun](#vertical.local_commun)    
 
-## Règles de validation IFC <a id="ifc">
+## 1 Règles de validation IFC <a id="ifc">
 
-([LotsOfBIM-cadastre-vertical-modelisation-BIM.pdf](./LotsOfBIM-cadastre-vertical-modelisation-BIM.pdf)
+Les règles de validation IFC se basent sur les critères du guide de modélisation ([LotsOfBIM-cadastre-vertical-modelisation-BIM.pdf](./LotsOfBIM-cadastre-vertical-modelisation-BIM.pdf).
 
 ### 1.1 Schéma IFC <a id="ifc.schema">
 
@@ -211,29 +211,62 @@ Pour chaque élément spatial, vérifiez que l'élément n'a pas de représentat
 
 ## 2. Règles de délimitation des lots privatifs pour le Cadastre Vertical <a id="vertical">
 
-[Cadastre vertical – Recommandations - 2e partie : La délimitation des lots privatifs, Octobre 2012.](https://act.public.lu/fr/publications/telechargement-documents/technique/Recommandations_Delimitation.html)
+Les règles de délimitation sont dérivés du document '[Cadastre vertical – Recommandations - 2e partie : La délimitation des lots privatifs, Octobre 2012.](https://act.public.lu/fr/publications/telechargement-documents/technique/Recommandations_Delimitation.html)'.
 
 ### 2.1 Intersection de lots privatifs <a id="vertical.intersection">
-**Besoin**: Aucun des lots privatifs n’empiète sur la parcelle voisine ou la voirie publique. [Délimitation, 2.2]
+**Besoin**: Aucun des lots privatifs n’empiète sur la parcelle voisine ou la voirie publique [Délimitation, 2.2](https://act.public.lu/fr/publications/telechargement-documents/technique/Recommandations_Delimitation.html).
+
+**Méthode de test:**
+  -Déterminez l'empreinte en 2D de chaque élément IfcSpace et de chaque élément de séparation (IfcWall (et sous-classes), IfcCurtainWall, IfcWindow). Le résultat sont des polygones.
+  -Appliquez une transformation de coordonnées Helmert (échelle, rotation, translation) pour convertir les géométries en LUREF (EPSG:2169) en utilisant les paramètres IfcMapConversion.
+  -Vérifiez que les polygones obtenus ne se croisent pas ou ne sont pas situés à l'extérieur de la géométrie parcellaire cadastrale dans le BD-MO. Appliquer une erreur de tolérance de 2 dm. En cas de chevauchement, déclenchez un avertissement.
+
+**Type:** test automatisé.
+
+**Résultat:** erreur, en cas de non-conformité.
 
 ### 2.2 Plan de mensuration officielle <a id="vertical.mensuration">
 **Besoin**: La délimitation de la parcelle de support fixe parmi d’autres facteurs, la géométrie de l’immeuble qui détermine en premier la délimitation des lots privatifs. Un plan de mensuration officielle qui l’arrête et la documente, doit en conséquence être intégré
-à la plupart des états descriptifs de division et scrupuleusement reproduit par tous les plans d’implantation et d’étage. [Délimitation, 2.2]
+à la plupart des états descriptifs de division et scrupuleusement reproduit par tous les plans d’implantation et d’étage [Délimitation, 2.2](https://act.public.lu/fr/publications/telechargement-documents/technique/Recommandations_Delimitation.html).
+
+**Type:** test manuel.
 
 ### 2.3 Conformité à l'autorisation de construire <a id="vertical.autorisation">
 **Besoin**: La délimitation est donc fonction de la partie littérale et graphique de l’autorisation de construire et les plans descriptifs de division doivent s’accorder avec les plans autorisés. Cette concordance assure aussi que la division de l’immeuble est conforme aux réglementations communales relatives à l’aménagement et à la construction, et que tous les lots privatifs sont effectivement réalisables.
 
+**Type:** test manuel.
+
 ### 2.4 Conformité des natures <a id="vertical.nature">
 **Besoin**: chaque lot privatif rassemble le corps d’une même nature et les parties accessoires qui le servent, de manière à constituer une unité transférable de propriété exclusive.
+
+**Méthode de test:** Dans le fichier IFC, la nature des lots est encodée sous la forme `IfcZone.ObjectType`. La nature des LotParts (parties de lot) est incluse dans `ACT_PartieDeLot.Nature`.
+  - Vérifiez pour chaque ACT_PartieDeLot.Nature si elle est autorisée en combinaison avec la valeur correspondante pour IfcZone.ObjectType.
+  - Générez une erreur si les natures des parties de lot sont incompatibles avec la nature du lot auquel elles appartiennent.
+
+**Type:** test automatisé.
+
 
 ### 2.5 Adjacence parties de lot <a id="vertical.adjacence">
 **Besoin**: Aucun lot privatif ne peut rassembler des éléments situés sur différents niveaux ou situés sur le même niveau, mais séparés par un autre lot privatif ou par des parties communes (autres que les murs de refend) ; ainsi les duplex (triplex) courants sont formés par deux (trois) lots privatifs sis sur deux (trois) niveaux consécutifs et reliés entre eux. [Délimitation, 2.4].
 
+**Méthode de test:** 
+ 1. Pour chaque objet IfcZone (Lot), vérifiez que:
+    - Tous les objets IfcSpace (parties de lot) associés à ce lot sont liés au même objet IfcBuildingStorey ; or
+    - Tous les objets IfcSpace associés à ce lot ne sont liés à aucun objet IfcBuildingStorey (dans le cas d'espaces extérieurs ; jardins).
+Génère une erreur si un lot contient des parties de lot qui se trouvent sur différents magasins de construction.
+ 2. Pour chaque objet IfcZone (Lot), vérifiez que :
+    - Le lot ne comprend qu'un seul objet IfcSpace ; or
+    - l'empreinte 2D de chaque objet IfcSpace est au moins à moins de 0,5 m d'un autre objet IfcSpace. Émettre un avertissement si un lot se compose de parties de lot séparées.
+
 ### 2.6 Lots privatifs sans accès direct aux communs <a id="vertical.acces">
 **Besoin**: une délimitation qui engendre, soit des lots privatifs sans accès direct aux communs, soit des parties communes exiguës ou enclavées, soit des servitudes en conséquence, doit être évitée. (Lots sans accès au communs / parties communes enclaves). [Délimitation, 2.4]
 
+**Type:** test manuel.
+
 ### 2.7 Délimitation suivant le même schéma <a id="vertical.congruence">
-**Besoin**: 2.5. Des lots privatifs semblables, quant à leur nature, à leur situation, à leur géométrie et à leur réalisation, doivent tous être délimités suivant le même schéma (exemple : une série d’emplacements souterrains adjacents). [Délimitation, 2.5]
+**Besoin**: Des lots privatifs semblables, quant à leur nature, à leur situation, à leur géométrie et à leur réalisation, doivent tous être délimités suivant le même schéma (exemple : une série d’emplacements souterrains adjacents). [Délimitation, 2.5]
+
+**Type:** test manuel.
 
 ### 2.8 Status des éléments de construction <a id="vertical.statut_element">
 **Besoin**: Le statut des éléments de construction qui matérialisent la quasi-totalité des limites des lots privatifs intérieurs, est fixé comme suit:
@@ -243,26 +276,39 @@ Pour chaque élément spatial, vérifiez que l'élément n'a pas de représentat
      - les murs et les piliers de refend
      - les cloisons délimitant les parties communes communs
   - Mitoyennes : les cloisons délimitant deux lots privatifs contigus mitoyennes
-  - Privative : les cloisons (amovibles ou non) à l’intérieur du même lot privatif privatives [Délimitation, 2.6]
+  - Privative : les cloisons (amovibles ou non) à l’intérieur du même lot privatif privatives [Délimitation, 2.6].
 
+**Type:** test manuel.
 
 
 ### 2.9 Statut des ouvertures <a id="vertical.statut_ouverture">
-**Besoin**: Chaque ouverture (fenêtre, porte, porte-fenêtre, porte de garage, baie vitrée …) a le même statut que l’élément de construction dans lequel elle a été pratiquée. Le repère de la délimitation est alors celle des parties alignées de son encadrement (retombée, allège ou pan latéral aligné) qui avance le plus dans la pièce. [Délimitation, 2.8]
+**Besoin**: Chaque ouverture (fenêtre, porte, porte-fenêtre, porte de garage, baie vitrée …) a le même statut que l’élément de construction dans lequel elle a été pratiquée. Le repère de la délimitation est alors celle des parties alignées de son encadrement (retombée, allège ou pan latéral aligné) qui avance le plus dans la pièce [Délimitation, 2.8].
+
+**Type:** test manuel.
 
 ### 2.10 Statut des éléments de protection <a id="vertical.statut_protection">
-**Besoin**: Les éléments de construction et d’équipement, destinés à la protection des personnes et des meubles (escaliers de secours, murs pare-feu …), doivent appartenir aux parties communes. [Délimitation, 2.9]]
+**Besoin**: Les éléments de construction et d’équipement, destinés à la protection des personnes et des meubles (escaliers de secours, murs pare-feu …), doivent appartenir aux parties communes [Délimitation, 2.9]].
+
+**Type:** test manuel.
 
 ### 2.11 Statuts des gaines techniques et cheminées <a id="vertical.statut_gaine">
-**Besoin**: Les gaines techniques et les cheminées, ensemble avec leurs coffrages, appartiennent toutes aux parties communes. Elles peuvent être privatives, si leur affectation à ces parties de l’immeuble, ne porte aucun préjudice à la copropriété et si elles ne servent qu’un seul lot privatif ou qu’un ensemble de lots privatifs qui, de par leur destination et leur disposition, sont détenus par le même copropriétaire. Cette exception ne vaut pas pour les conduits qui passent par une unité d’habitation, assimilable à une maison unifamiliale, mais intégrée dans un immeuble soumis au statut de la copropriété. [Délimitation, 2.10]
+**Besoin**: Les gaines techniques et les cheminées, ensemble avec leurs coffrages, appartiennent toutes aux parties communes. Elles peuvent être privatives, si leur affectation à ces parties de l’immeuble, ne porte aucun préjudice à la copropriété et si elles ne servent qu’un seul lot privatif ou qu’un ensemble de lots privatifs qui, de par leur destination et leur disposition, sont détenus par le même copropriétaire. Cette exception ne vaut pas pour les conduits qui passent par une unité d’habitation, assimilable à une maison unifamiliale, mais intégrée dans un immeuble soumis au statut de la copropriété [Délimitation, 2.10].
+
+**Type:** test manuel.
 
 ### 2.12 Statut des cours anglaises <a id="vertical.cours_anglaise">
-**Besoin**: Les cours anglaises et leurs projections verticales, au moins jusqu’au premier niveau hors sol, appartiennent généralement aux parties communes. [Délimitation, 2.11]
+**Besoin**: Les cours anglaises et leurs projections verticales, au moins jusqu’au premier niveau hors sol, appartiennent généralement aux parties communes [Délimitation, 2.11](https://act.public.lu/fr/publications/telechargement-documents/technique/Recommandations_Delimitation.html).
+
+**Type:** test manuel.
 
 ### 2.13 Escalier trémie à exclure <a id="vertical.escalier">
 **Besoin**: La cage d’un escalier reliant deux parties privatives qui sont directement superposées et, de par leur destination et leur disposition, détenues par le même copropriétaire, est intégrée dans le lot privatif en bas de l’escalier. La partie de la trémie en haut de
-l’escalier, qui n’est pas surplombée par un deuxième escalier (donc l’entière trémie au niveau supérieur), n’est attribuée à aucun lot privatif. [Délimitation, 2.12]
+l’escalier, qui n’est pas surplombée par un deuxième escalier (donc l’entière trémie au niveau supérieur), n’est attribuée à aucun lot privatif [Délimitation, 2.12](https://act.public.lu/fr/publications/telechargement-documents/technique/Recommandations_Delimitation.html).
 
+**Méthode de test:** 
+Pour chaque géométrie d'escalier à exclure (donct objets IfcSpace avec `ACT_PartieDeLot.Nature` égal à `'ESCALIER INTERIEUR - TREMIE A EXCLURE'`)
+  - Vérifiez qu'il existe au moins un autre objet IfcSpace avec `ACT_PartieDeLot.Nature` dans ('ESCALIER INTERIEUR') qui a la même valeur que `ACT_PartieDeLot.Unite` comme géométrie d'escalier exclue et dont la géométrie d'empreinte 2D touche ou est adjacente à la géométrie de la géométrie de l'escalier exclue.
+  - Émettre un avertissement si ce n'est pas le cas.
 
 ### 2.14 Trappe ou un vide décoratif <a id="vertical.vide">
 **Besoin**: une trappe ou un vide décoratif ne fait pas partie du lot privatif qui l’englobe [Délimitation, 2.13]
@@ -277,7 +323,7 @@ l’escalier, qui n’est pas surplombée par un deuxième escalier (donc l’en
 **Besoin**: La passerelle extérieure, accolée à un balcon ou à une terrasse, fait partie intégrante de ce balcon ou de cette terrasse. Dans le cas contraire, elle constitue un lot privatif indépendant (de nature Accès). [Délimitation, 2.16]
 
 ### 2.18 Installations de parking avec plateformes superposées ou coulissantes <a id="vertical.emplacements_superposés">
-**Besoin**: Les emplacements encastrés dans un système de parcage à plates-formes superposées ou coulissantes, sont délimités par ces plates-formes mêmes. En cas de rangées d’emplacements disposées les unes directement derrière les autres, une aire de manoeuvre commune de la taille minimale d’un emplacement, est prévue dans chacune des rangées de devant où les véhicules sont garés sur des plates-formes coulissantes. [Délimitation, 2.17]
+**Besoin**: Les emplacements encastrés dans un système de parcage à plates-formes superposées ou coulissantes, sont délimités par ces plates-formes mêmes. En cas de rangées d’emplacements disposées les unes directement derrière les autres, une aire de manoeuvre commune de la taille minimale d’un emplacement, est prévue dans chacune des rangées de devant où les véhicules sont garés sur des plates-formes coulissantes [Délimitation, 2.17(https://act.public.lu/fr/publications/telechargement-documents/technique/Recommandations_Delimitation.html)]
 
 ### 2.19 Au moins un local commun <a id="vertical.local_commun">
 **Besoin**: Condition pour un établissement d’un cadastre vertical : il faut au moins un local commun, les murs extérieurs ne sont pas suffisants comme parties communes.
