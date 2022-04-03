@@ -1,6 +1,6 @@
 # Validation
 
-Ce document résume les règles de validation qui sont vérifiées par l'application [LotsOfBIM](https://lotsofbim.geoportail.lu/) lors d'une demande de désignation cadastrale.
+Ce document résume les règles de validation qui sont vérifiées par l'application [LotsOfBIM](https://lotsofbim.geoportail.lu/) lors d'une demande de désignation cadastrale des lots privatifs d'un immeuble soumis au statut de la copropriétés.
 
 - [1 Règles de validation IFC](#ifc)
   - [1.1 Schéma IFC](#ifc.schema)
