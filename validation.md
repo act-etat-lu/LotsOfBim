@@ -258,13 +258,17 @@ Génère une erreur si un lot contient des parties de lot qui se trouvent sur di
     - Le lot ne comprend qu'un seul objet IfcSpace ; or
     - l'empreinte 2D de chaque objet IfcSpace est au moins à moins de 0,5 m d'un autre objet IfcSpace. Émettre un avertissement si un lot se compose de parties de lot séparées.
 
+**Type:** test automatisé.
+
+**Résultat:** erreur, en cas de non-conformité.
+
 ### 2.6 Lots privatifs sans accès direct aux communs <a id="vertical.acces">
-**Besoin**: une délimitation qui engendre, soit des lots privatifs sans accès direct aux communs, soit des parties communes exiguës ou enclavées, soit des servitudes en conséquence, doit être évitée. (Lots sans accès au communs / parties communes enclaves). [Délimitation, 2.4]
+**Besoin**: une délimitation qui engendre, soit des lots privatifs sans accès direct aux communs, soit des parties communes exiguës ou enclavées, soit des servitudes en conséquence, doit être évitée. (Lots sans accès au communs / parties communes enclaves) [Délimitation, 2.4](https://act.public.lu/dam-assets/fr/publications/documents-techniques/Recommandations_Delimitation.pdf?page=12).
 
 **Type:** test manuel.
 
 ### 2.7 Délimitation suivant le même schéma <a id="vertical.congruence">
-**Besoin**: Des lots privatifs semblables, quant à leur nature, à leur situation, à leur géométrie et à leur réalisation, doivent tous être délimités suivant le même schéma (exemple : une série d’emplacements souterrains adjacents). [Délimitation, 2.5]
+**Besoin**: Des lots privatifs semblables, quant à leur nature, à leur situation, à leur géométrie et à leur réalisation, doivent tous être délimités suivant le même schéma (exemple : une série d’emplacements souterrains adjacents) [Délimitation, 2.5](https://act.public.lu/dam-assets/fr/publications/documents-techniques/Recommandations_Delimitation.pdf?page=12).
 
 **Type:** test manuel.
 
@@ -276,7 +280,7 @@ Génère une erreur si un lot contient des parties de lot qui se trouvent sur di
      - les murs et les piliers de refend
      - les cloisons délimitant les parties communes communs
   - Mitoyennes : les cloisons délimitant deux lots privatifs contigus mitoyennes
-  - Privative : les cloisons (amovibles ou non) à l’intérieur du même lot privatif privatives [Délimitation, 2.6].
+  - Privative : les cloisons (amovibles ou non) à l’intérieur du même lot privatif privatives [Délimitation, 2.6](https://act.public.lu/dam-assets/fr/publications/documents-techniques/Recommandations_Delimitation.pdf?page=13).
 
 **Type:** test manuel.
 
@@ -313,18 +317,34 @@ Pour chaque géométrie d'escalier à exclure (donct objets IfcSpace avec `ACT_P
 ### 2.14 Trappe ou un vide décoratif <a id="vertical.vide">
 **Besoin**: une trappe ou un vide décoratif ne fait pas partie du lot privatif qui l’englobe [Délimitation, 2.13]
 
+**Type:** test manuel.
+
 ### 2.15 Ascenseur ou monte-charge privatif <a id="vertical.ascenseur">
 **Besoin**: La cage d’un ascenseur ou d’un monte-charge reliant exclusivement plusieurs parties privatives qui, de par leur destination et leur disposition, sont détenues par le même copropriétaire, est intégrée dans le lot privatif qui est desservi par l’ascenseur ou par le monte-charge au niveau correspondant. Un lot privatif indépendant n’est constitué qu’aux niveaux où l’ascenseur ou le monte-charge donne seulement accès aux parties communes. [Délimitation, 2.14].
+
+**Type:** test manuel.
 
 ### 2.16 External one-level staircase is an independent lot  <a id="vertical.escalier_exterieur">
 **Besoin**: L’escalier extérieur qui relie des parties du même niveau (donc l’escalier de quelques marches seulement et par conséquent d’une moindre hauteur) appartient au balcon ou à la terrasse attenante. En revanche, l’escalier extérieur qui relie des parties de deux niveaux consécutifs (donc l’escalier d’une hauteur de l’ordre d’un étage) forme un lot privatif indépendant au niveau inférieur. [Délimitation, 2.15]
 
+**Type:** test manuel.
+
 ### 2.17 External footbridge - Passerelle extérieure <a id="vertical.paserelle.exterieur">
 **Besoin**: La passerelle extérieure, accolée à un balcon ou à une terrasse, fait partie intégrante de ce balcon ou de cette terrasse. Dans le cas contraire, elle constitue un lot privatif indépendant (de nature Accès). [Délimitation, 2.16]
 
+**Type:** test manuel.
+
 ### 2.18 Installations de parking avec plateformes superposées ou coulissantes <a id="vertical.emplacements_superposés">
-**Besoin**: Les emplacements encastrés dans un système de parcage à plates-formes superposées ou coulissantes, sont délimités par ces plates-formes mêmes. En cas de rangées d’emplacements disposées les unes directement derrière les autres, une aire de manoeuvre commune de la taille minimale d’un emplacement, est prévue dans chacune des rangées de devant où les véhicules sont garés sur des plates-formes coulissantes [Délimitation, 2.17(https://act.public.lu/fr/publications/telechargement-documents/technique/Recommandations_Delimitation.html)]
+**Besoin**: Les emplacements encastrés dans un système de parcage à plates-formes superposées ou coulissantes, sont délimités par ces plates-formes mêmes. En cas de rangées d’emplacements disposées les unes directement derrière les autres, une aire de manoeuvre commune de la taille minimale d’un emplacement, est prévue dans chacune des rangées de devant où les véhicules sont garés sur des plates-formes coulissantes [Délimitation, 2.17(https://act.public.lu/dam-assets/fr/publications/documents-techniques/Recommandations_Delimitation.pdf?page=6)].
+
+**Type:** test manuel.
 
 ### 2.19 Au moins un local commun <a id="vertical.local_commun">
 **Besoin**: Condition pour un établissement d’un cadastre vertical : il faut au moins un local commun, les murs extérieurs ne sont pas suffisants comme parties communes.
 
+**Méthode de test:** 
+Vérifiez qu'il existe au moins un objet IfcSpace qui n'a pas de valeur pour ACT_PartieDeLot.Lot, car cet espace peut être considéré comme un espace commun.
+
+**Type:** test automatisé.
+
+**Résultat:** erreur, en cas de non-conformité.
