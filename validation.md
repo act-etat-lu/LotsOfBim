@@ -41,17 +41,16 @@ Ce document résume les règles de validation qui sont vérifiées par l'applica
 
 ### Schéma IFC <a id="ifc.schema">
 
-**Besoin**
-Le fichier IFC doit respecter les versions de schéma [IFC2x3 TC1](https://standards.buildingsmart.org/IFC/RELEASE/IFC2x3/TC1/HTML/) ou [IFC4 ADD2 TC1](https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/) de BuildingSMART International , plus spécifiquement la 'coordination view MVD' de IFC2x3 TC1 et la 'reference view MVD' de IFC4 ADD2 TC1. Le fichier doit être livré en format STEP Physical Format (IFC-SPF).
+**Besoin:** Le fichier IFC doit respecter les versions de schéma [IFC2x3 TC1](https://standards.buildingsmart.org/IFC/RELEASE/IFC2x3/TC1/HTML/) ou [IFC4 ADD2 TC1](https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/) de BuildingSMART International , plus spécifiquement la 'coordination view MVD' de IFC2x3 TC1 et la 'reference view MVD' de IFC4 ADD2 TC1. Le fichier IFC doit être en format STEP Physical Format (IFC-SPF).
 
-**Méthode de test**
-* The magic number of the file must read ‘ISO-10303-21’;
-* The header of the STEP file contains the schema. The value should be ‘IFC4’ or ‘IFC2X3’.
-* The header file description must contain the value ‘ViewDefinition [ReferenceView_V1.2]’ (IFC4) or ‘ViewDefinition [CoordinationView_V2.0]’ (IFC2X3).
+**Méthode de test**:
+* Le fichier IFC doit commencer par la valeur 'ISO-10303-21' (le format STEP);
+* L'en-tête du fichier IFC doit indiquer le schéma IFC:  `FILE_SCHEMA(('IFC4'));` ou `FILE_SCHEMA(('IFC2x3'));`.
+* L'en-tête du fichier IFC doit indiquer le MVD appliqué: `'ViewDefinition [ReferenceView_V1.2]'` (IFC4) or `'ViewDefinition [CoordinationView_V2.0]'` (IFC2X3).
   
-**Type**: erreur, en cas de non-conformité
+**Résultat**: erreur, en cas de non-conformité.
 
-**Test type:** automatisé
+**Type** test automatisé.
 
 **Exemple:**
 ```
@@ -66,14 +65,58 @@ ENDSEC;
 
 ### Maquette numérique géoréférencée <a id="ifc.geo.luref">
 
-**Besoin**: Le positionnement et l’orientation du point zéro de la maquette numérique doivent être spécifiés dans le système de référence Luxembourgeois LUREF (EPSG: 2169).
+**Besoin** : Le positionnement et l’orientation du point zéro de la maquette numérique doivent être spécifiés dans le système de référence Luxembourgeois LUREF ([EPSG: 2169](https://act.public.lu/fr/gps-reseaux/spslux1/spsluxgeodeticdatum.html)).
 
+**Méthode de test** :
+  1. Vérifier que le fichier IFC contient le paramètres MapConversion et ProjectedCRS:
+      - Si le schéma IFC est IFC4, l'objet `IfcProject' doit être associé avec (`IfcProject.RepresentationContexts`) un objet  `IfcGeometricRepresentationContext` that describes a CoordinateOperation (IfcMapConversion) for a TargetCRS (IfcProjectedCRS).
+      - Si le schéma IFC est IFC2X3, l'objet `IfcSite` doit être associé avec un property set `ePset_MapConversion` et  `ePset_ProjectedCRS`.
+  2. Vérifier si toute information est correcte:
+      - **Eastings**
+      - **Northings** 
+      - **OrthonalHeight**
+      - **XAxisAbscissa**
+      - **XAxisOrdinate**
+      - **Scale** (optionnel)
+  3. Test whether the following values are provided for the ProjectedCRS object:
+      - **Name**: la valeur doit être `EPSG: 2169`. 
+
+**Type**: test automatisé.
+
+**Résultat**: erreur, en cas de non-conformité.
+
+**Exemple:**
+```
+#126= IFCPROJECTEDCRS('EPSG:2169','Luxembourg 1930 / Gauss','Luxembourg30b',$,$,$,#125);
+#128= IFCMAPCONVERSION(#116,#126,76670.,77179.,293.7,0.945518575599319,-0.32556815445715,$);
+#130= IFCPROJECT('3ZGD7y6S5209$mGLi_sPlj',#42,'001-00',$,$,'Sample House','Project Status',(#116),#109);
+```
 
 ### Parcelles cadastrales <a id="ifc.geo.parcel">
 
+**Besoin:** la géolocalisation de la maquette doit correspondre aux parcelles cadastrales sélectionnées dans l'application LotsOfBIM.
+
+**Méthode de test:**
+  1. Déterminez l'empreinte 2D de tous les objets IfcSpace dans le modèle BIM et convertissez-la en polygone 2D.
+  2. Extrayez les paramètres IfcMapConversion du modèle BIM. Convertissez l'empreinte 2D en LUREF.
+  3. Récuperez les parcelles cadastrales selectionnées dans l'applicaiton LotsOfBIM par l'utilisateur lors de la création du dossier. Vérifiez si au moins un des parcelles cadastrales identifiées intersectent avec l'empreinte 2D des objets IfcSpace. 
+
+**Type:** test automatisé.
+
+**Résultat:** erreur, en cas de non-conformité.
+
+
 ### IfcBuilding.ElevationOfRefHeight <a id="ifc.building.elevation">
 
-**Besoin**: La valeur de l'attribut IfcBuilding.ElevationOfRefHeight doit être égale à 0.0.
+**Besoin**: La valeur de l'attribut `IfcBuilding.ElevationOfRefHeight` doit être égale à 0.0.
+
+**Méthode de test:**
+  1. Testez si `IfcBuilding.ElevationOfRefHeight` est à égale à 0.0, nul ou absent.
+
+
+**Type:** test automatisé.
+
+**Résultat:** erreur, en cas de non-conformité.
 
 ### IfcBuildingStorey <a id="ifc.IfcBuildingStorey">
 
@@ -81,27 +124,89 @@ ENDSEC;
  - Chaque étage (IfcBuildingStorey) doit avoir un property ACT_Etage.Nom dont la valeur est conforme aux recommandations de délimitation du cadastre vertical. 
  - L'attribut IfcBuildingStorey.Elevation doit avoir une valeur.
 
+**Méthode de test:**
+ Pour chaque objet de type `IfcBuildingStorey`:
+   - Vérifiez s'il a une propriété ACT_Etage.Nom;
+   - vérifiez que l'attribut IfcBuildingStorey.Elevation a une valeur.
+
+**Type:** test automatisé.
+
+**Résultat:** erreur, en cas de non-conformité.
+
 ### IfcSpace <a id="ifc.IfcSpace">
 
-**Besoins:** 
- - 
+**Besoin:** Chaque espace fonctionnel doit être modélisé comme IfcSpace. 
+  - Chaque IfcSpace doit avoir un nom indiqué dans l'attribut `IfcSpace.Name`.
+  - La géométrie de chaque IfcSpace doit être modélisée correctement en 3D de préférence avec une géométrie de type Body Brep Geometry (les géométries de type ‘Body SweptSolid Geometry’ et ‘Body Clipping Geometry’ seront également supporté par l’ACT), afin de connaître l’empreinte de la partie de lot et la hauteur des plafonds. 
+  - ACT_PartieDeLot.Nature doit avoir une valeur conforme.
+  - La valeur de property ACT_PartieDeLot.Lot contient une valeur structurée: numéro,bloc,escalier,niveau (p.e. 001,A,B,81).
+
+**Méthode de test:**
+Pour chaque objet IfcSpace :
+  - Vérifiez que l'attribut `IfcSpace.Name` porte une valeur
+  - Vérifiez que l'objet a une géométrie en 3D: l'objet doit avoir au moins une représentation 'body' (`IfcShapeRepresentation.RepresentationIdentifier = 'Body'`) de type (`IfcShapeRepresentation.RepresentationType`) `'Brep'` `'SweptSolid'`, ou `'Clipping'`.
+  - Vérifiez que si l'objet a un propertyset `ACT_PartieDeLot` associé, que les properties `ACT_PartieDeLot.Nature` et `ACT_PartieDeLot.Lot` ont une valeur.
+  - Vérifiez si ACT_PartieDeLot.Nature a une valeur de la liste de codes correspondante.
+  - Vérifiez que si l'objet a un propertyset `ACT_PartieDeLot` associé, la valeur du property ACT_PartieDeLot.Lot respecte les exigences de format requises: *numéro,bloc,escalier,niveau* (p.e. 001,A,B,81).
+
+**Type:** test automatisé.
+
+**Résultat:** erreur, en cas de non-conformité.
+
 
 ### IfcZone <a id="ifc.IfcZone">
 
 **Besoins:**
- - Chaque attribut IfcSpace.Name doit avoir une valeur.
- - Chaque objet de type IfcSpace doit avoir une géometrie en 3D (IfcShapeRepresentation.RepresentationIdentifier = 'Body') de  type (IfcShapeRepresentation.RepresentationType) ‘Brep’ ‘SweptSolid’, or ‘Clipping’.
- - Chaque IfcSpace doit avoir un property set ACT_PartieDeLot, that both ACT_PartieDeLot.Nature and ACT_PartieDeLot.Lot properties have a value.
- - ACT_PartieDeLot.Nature doit avoir une valeur conforme.
- - La valeur de property ACT_PartieDeLot.Lot contient une valeur structurée: numéro,bloc,escalier,niveau (p.e. 001,A,B,81). 
+Chaque objet IfcZone associé à un ou plusieurs parties de lots, doit avoir les attributs suivants:
+  - `IfcZone.Name`: le nom doit être composé du numéro,bloc,escalier,niveau (p.e. 001,A,B,81). Ceci permet de générer le tableau descriptif de division.
+  - `IfcZone.ObjectType`: l’attribut ObjectType doit être rempli avec une des valeurs qui représentent la nature des lots (voir Annex II).
 
+**Méthode de test:**
+Pour chaque objet IfcZone qui est associé (`IfcZone.IsGroupedBy`) avec des objet IfcSpace qui ont un property set `ACT_PartieDeLot`: 
+  - Vérifiez si le nom `IfcZone.Name` a une valeur et respecte les exigences de format (numéro,bloc,escalier,niveau (p.e. 001,A,B,81)).
+  - Vérifiez si `IfcZone.ObjectType` a une valeur de la liste de codes correspondante.
+
+**Type:** test automatisé.
+
+**Résultat:** erreur, en cas de non-conformité.
 
 ### Separation walls <a id="ifc.cloisons">
 
+**Besoin:** chaque élément de séparation doit avoir un propertyset (`Pset_WallCommon`, `Pset_ColumnCommon`, `Pset_WindowCommon`, `Pset_CurtainWallCommon`) dont les caractéristiques suivants doivent être fournies : `LoadBearing` et `IsExternal`.
+
+**Méthode de test:**
+Pour chaque élément de séparation (`IfcWall`, `IfcCurtainWall`, `IfcWindow` ou `IfcColumn`) :
+  - vérifiez que l'élément a un jeu de propriétés associé pour lequel les propriétés `LoadBearing` et `IsExternal` sont fournies.
+  - Vérifiez que les éléments porteurs ou externes (`LoadBearing = true` ou `IsExternal = true`) ne sont pas classés comme étant privés (`ACT_Propriete.Nature = 'privatif'`) ou mutualisés (`ACT_Propriete.Nature = 'mutuel'`).
+
+**Type:** test automatisé.
+
+**Résultat:** erreur, en cas de non-conformité.
+
 ### Géometries simplifiées <a id="ifc.geometries">
+
+**Besoin:** Evitez les types de géométries compliqués: le format IFC permet de types de géométrie paramétriques compliqués qui sont à présent peu utilisés et donc peu supportés par les outils.  Pour cette raison, le fichier IFC ne peut que contenir géométries selon les contraintes incluses dans la coordination view MVD de IFC2x3 TC1 et reference view MVD de IFC4 ADD2 TC1.
+
+**Méthode de test:**
+Pour chaque élément spatial, vérifiez que l'élément n'a pas de représentation 'Body' (`IfcShapeRepresentation.RepresentationIdentifier = 'Body'`) de type (`IfcShapeRepresentation.RepresentationType`) `CSG` `AdvancedSweptSolid` ou `AdvancedBrep`.
+
+**Type:** test automatisé.
+
+**Résultat:** avertissement, en cas de non-conformité.
 
 ### Fill the building volume without overlaps nor intersections <a id="ifc.topologie">
 
+**Besoin:** Afin que le tableau descriptif de division puisse être correctement généré, les intersections (doublons, géométries contenues par une autre géométries) suivantes doivent impérativement être évitées :
+  - IfcSpace - IfcSpace: deux parties de lot ne peuvent pas s’intersecter. Ceci vaut aussi pour les IfcSpace déterminant le volume pris par des escaliers ou ascenseurs.
+  - IfcFlowSegment - IfcWall: les gaines techniques (p.e. IfcFlowSegment) sont incluses dans des ouvertures des objets mur.
+  - IfcSpace - IfcWall: les murs extérieurs mais aussi les murs intérieurs ne peuvent pas être inclus dans la géometries d’un IfcSpace.
+
+
+**Méthode de test:**
+
+**Type:** test automatisé.
+
+**Résultat:** erreur, en cas de non-conformité.
 
 
 ## Règles de délimitation des lots privatifs pour le Cadastre Vertical <a id="vertical">
