@@ -4,9 +4,9 @@ Ce document résume les règles de validation qui sont vérifiées par l'applica
 
 - [1 Règles de validation IFC](#ifc)
   - [1.1 Schéma IFC](#ifc.schema)
-  - [1.2 Maquette numérique géoréférencée](#ifc.geo.luref)
-  - [1.3 Parcelles cadastrales](#ifc.geo.parcel)
-  - [1.4 IfcBuilding.ElevationOfRefHeight](#ifc.building.elevation)
+  - [1.2 Maquette numérique géoréférencée](#ifc.géo.luref)
+  - [1.3 Parcelles cadastrales](#ifc.géo.parcelle)
+  - [1.4 IfcBuilding.ElevationOfRefHeight](#ifc.IfcBuilding.ElevationOfRefHeight)
   - [1.5 IfcBuildingStorey](#ifc.IfcBuildingStorey)
   - [1.6 IfcSpace](#ifc.IfcSpace)
   - [1.7 IfcZone](#ifc.IfcZone)
@@ -63,7 +63,7 @@ ENDSEC;
 ```
 
 
-### 1.2 Maquette numérique géoréférencée <a id="ifc.geo.luref">
+### 1.2 Maquette numérique géoréférencée <a id="ifc.géo.luref">
 
 **Besoin** : Le positionnement et l’orientation du point zéro de la maquette numérique doivent être spécifiés dans le système de référence Luxembourgeois LUREF ([EPSG: 2169](https://act.public.lu/fr/gps-reseaux/spslux1/spsluxgeodeticdatum.html)). Source: [LotsOfBIM-cadastre-vertical-modelisation-BIM.pdf](./LotsOfBIM-cadastre-vertical-modelisation-BIM.pdf).
 
@@ -92,7 +92,7 @@ ENDSEC;
 #130= IFCPROJECT('3ZGD7y6S5209$mGLi_sPlj',#42,'001-00',$,$,'Sample House','Project Status',(#116),#109);
 ```
 
-### 1.3 Parcelles cadastrales <a id="ifc.geo.parcel">
+### 1.3 Parcelles cadastrales <a id="ifc.géo.parcelle">
 
 **Besoin:** la géolocalisation de la maquette doit correspondre aux parcelles cadastrales sélectionnées dans l'application LotsOfBIM. Source: [LotsOfBIM-cadastre-vertical-modelisation-BIM.pdf](./LotsOfBIM-cadastre-vertical-modelisation-BIM.pdf).
 
@@ -106,7 +106,7 @@ ENDSEC;
 **Résultat:** erreur, en cas de non-conformité.
 
 
-### 1.4 IfcBuilding.ElevationOfRefHeight <a id="ifc.building.elevation">
+### 1.4 IfcBuilding.ElevationOfRefHeight <a id="ifc.IfcBuilding.ElevationOfRefHeight">
 
 **Besoin**: La valeur de l'attribut `IfcBuilding.ElevationOfRefHeight` doit être égale à 0.0. Source: [LotsOfBIM-cadastre-vertical-modelisation-BIM.pdf](./LotsOfBIM-cadastre-vertical-modelisation-BIM.pdf).
 
@@ -192,7 +192,7 @@ Pour chaque élément de séparation (`IfcWall`, `IfcCurtainWall`, `IfcWindow` o
 
 **Résultat:** erreur, en cas de non-conformité.
 
-### 1.9 Géometries simplifiées <a id="ifc.geometries">
+### 1.9 Géometries simplifiées <a id="ifc.géometries">
 
 **Besoin:** Evitez les types de géométries compliqués: le format IFC permet de types de géométrie paramétriques compliqués qui sont à présent peu utilisés et donc peu supportés par les outils.  Pour cette raison, le fichier IFC ne peut que contenir géométries selon les contraintes incluses dans la coordination view MVD de IFC2x3 TC1 et reference view MVD de IFC4 ADD2 TC1. Source: [LotsOfBIM-cadastre-vertical-modelisation-BIM.pdf](./LotsOfBIM-cadastre-vertical-modelisation-BIM.pdf).
 
@@ -333,12 +333,12 @@ Pour chaque géométrie d'escalier à exclure (donct objets IfcSpace avec `ACT_P
 
 **Type:** test manuel.
 
-### 2.16 Escalier extérieur <a id="délimitation.escalier_exterieur">
+### 2.16 Escalier extérieur <a id="délimitation.escalier_extérieur">
 **Besoin**: L’escalier extérieur qui relie des parties du même niveau (donc l’escalier de quelques marches seulement et par conséquent d’une moindre hauteur) appartient au balcon ou à la terrasse attenante. En revanche, l’escalier extérieur qui relie des parties de deux niveaux consécutifs (donc l’escalier d’une hauteur de l’ordre d’un étage) forme un lot privatif indépendant au niveau inférieur [Délimitation, 2.15](https://act.public.lu/dam-assets/fr/publications/documents-techniques/Recommandations_Delimitation.pdf?page=6).
 
 **Type:** test manuel.
 
-### 2.17 Passerelle extérieure <a id="délimitation.paserelle_exterieure">
+### 2.17 Passerelle extérieure <a id="délimitation.paserelle_extérieure">
 **Besoin**: La passerelle extérieure, accolée à un balcon ou à une terrasse, fait partie intégrante de ce balcon ou de cette terrasse. Dans le cas contraire, elle constitue un lot privatif indépendant (de nature Accès) [Délimitation, 2.16](https://act.public.lu/dam-assets/fr/publications/documents-techniques/Recommandations_Delimitation.pdf?page=6).
 
 **Type:** test manuel.
