@@ -11,7 +11,7 @@ Ce document résume les règles de validation qui sont vérifiées par l'applica
   - [1.6 IfcSpace](#ifc.IfcSpace)
   - [1.7 IfcZone](#ifc.IfcZone)
   - [1.8 Murs de séparation](#ifc.cloisons)
-  - [1.9 Géometries simplifiées](#ifc.geometries)
+  - [1.9 Géometries simplifiées](#ifc.géometries)
   - [1.10 Remplissage sans intersections](#ifc.topologie)
 
 - [2 Règles de délimitation](#délimitation)
