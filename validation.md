@@ -20,7 +20,7 @@ Ce document résume les règles de validation qui sont vérifiées par l'applica
   - [2.3 Conformité à l'autorisation de construire](#délimitation.autorisation)
   - [2.4 Conformité des natures](#délimitation.nature)
   - [2.5 Adjacence parties de lot](#délimitation.adjacence)
-  - [2.6 Lots privatifs sans accès direct aux communs](#délimitation.acces)
+  - [2.6 Lots privatifs sans accès direct aux communs](#délimitation.accès)
   - [2.7 Délimitation suivant le même schéma](#délimitation.congruence)
   - [2.8 Status des éléments de construction](#délimitation.statut_element)
   - [2.9 Statut des ouvertures](#délimitation.statut_ouverture)
@@ -33,7 +33,7 @@ Ce document résume les règles de validation qui sont vérifiées par l'applica
   - [2.16 Escalier extérieur](#délimitation.escalier_extérieur)
   - [2.17 Passerelle extérieure](#délimitation.paserelle_extérieure)
   - [2.18 Emplacements à plates-formes superposées ou coulissantes](#délimitation.emplacements_superposés)
-  - [2.19 Au moins un local commun](#délimitation.local_commun)    
+  - [2.19 Au moins un local commun](#délimitation.local_commun)
 
 ## 1 Règles de validation IFC <a id="ifc">
 
@@ -271,7 +271,7 @@ Génère une erreur si un lot contient des parties de lot qui se trouvent sur di
 
 **Résultat:** erreur, en cas de non-conformité.
 
-### 2.6 Lots privatifs sans accès direct aux communs <a id="délimitation.acces">
+### 2.6 Lots privatifs sans accès direct aux communs <a id="délimitation.accès">
 **Besoin**: une délimitation qui engendre, soit des lots privatifs sans accès direct aux communs, soit des parties communes exiguës ou enclavées, soit des servitudes en conséquence, doit être évitée. (Lots sans accès au communs / parties communes enclaves) [Délimitation, 2.4](https://act.public.lu/dam-assets/fr/publications/documents-techniques/Recommandations_Delimitation.pdf?page=3).
 
 **Type:** test manuel.
