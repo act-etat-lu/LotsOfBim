@@ -15,11 +15,11 @@
 #	VolumetricFlowRate
 #
 
-PropertySet:	ACT_partieDeLot	I	IfcSpace,IfcFlowSegment,IfcCableCarrierSegment,IfcCableSegment,IfcDuctSegment,IfcPipeSegment,IfcChimney
-	Lot	Text	ACT_partieDeLot.Lot
-	Nature	Text	ACT_partieDeLot.Nature
-	Unite	Text	ACT_partieDeLot.Unite
-	TremieAExclure	Boolean	ACT_partieDeLot.TremieAExclure
+PropertySet:	ACT_PartieDeLot	I	IfcSpace,IfcFlowSegment,IfcCableCarrierSegment,IfcCableSegment,IfcDuctSegment,IfcPipeSegment,IfcChimney
+	Lot	Text	ACT_PartieDeLot.Lot
+	Nature	Text	ACT_PartieDeLot.Nature
+	Unite	Text	ACT_PartieDeLot.Unite
+	TremieAExclure	Boolean	ACT_PartieDeLot.TremieAExclure
 
 PropertySet:	ACT_Acces	I	IfcSpace,IfcDoor,IfcStair
 	Nom	Text	ACT_Acces.Nom
